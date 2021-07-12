@@ -12,7 +12,9 @@ repositories {
 
 dependencies {
     implementation 'org.springframework:spring-context:5.3.8'
+    implementation 'org.hsqldb:hsqldb:2.0.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.hsqldb:hsqldb:2.0.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
