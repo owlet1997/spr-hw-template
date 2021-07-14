@@ -1,7 +1,7 @@
 package org.example.connector.java;
 
 import lombok.Getter;
-import org.hsqldb.jdbc.JDBCDataSource;
+import org.example.connector.utils.Utils;
 
 import javax.sql.DataSource;
 
@@ -14,14 +14,7 @@ public class JavaHSQLConnector {
     public JavaHSQLConnector(String login, String password) {
         this.login = login;
         this.password = password;
-        this.dataSource = activateDS(login, password);
+        this.dataSource = Utils.activateDS(login, password);
     }
 
-    private DataSource activateDS(String login, String password){
-        JDBCDataSource dataSource = new JDBCDataSource();
-        dataSource.setDatabase("jdbc:hsqldb:mem:demo");
-        dataSource.setUser(login);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
 }

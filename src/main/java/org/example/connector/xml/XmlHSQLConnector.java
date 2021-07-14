@@ -1,9 +1,10 @@
 package org.example.connector.xml;
 
 import lombok.Getter;
-import org.hsqldb.jdbc.JDBCDataSource;
 
 import javax.sql.DataSource;
+
+import static org.example.connector.utils.Utils.activateDS;
 
 @Getter
 public class XmlHSQLConnector {
@@ -17,11 +18,4 @@ public class XmlHSQLConnector {
         this.dataSource = activateDS(login, password);
     }
 
-    private DataSource activateDS(String login, String password){
-        JDBCDataSource dataSource = new JDBCDataSource();
-        dataSource.setDatabase("jdbc:hsqldb:mem:demo");
-        dataSource.setUser(login);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
 }

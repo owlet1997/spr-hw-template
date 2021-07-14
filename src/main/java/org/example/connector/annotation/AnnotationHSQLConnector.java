@@ -1,7 +1,7 @@
 package org.example.connector.annotation;
 
 import lombok.Getter;
-import org.hsqldb.jdbc.JDBCDataSource;
+import org.example.connector.utils.Utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,14 +17,7 @@ public class AnnotationHSQLConnector {
     public AnnotationHSQLConnector(@Value("${login}") String login, @Value("${password}") String password) {
         this.login = login;
         this.password = password;
-        this.dataSource = activateDS(login, password);
+        this.dataSource = Utils.activateDS(login, password);
     }
 
-    private DataSource activateDS(String login, String password){
-        JDBCDataSource dataSource = new JDBCDataSource();
-        dataSource.setDatabase("jdbc:hsqldb:mem:demo");
-        dataSource.setUser(login);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
 }
