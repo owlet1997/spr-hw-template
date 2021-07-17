@@ -17,8 +17,9 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ApplicationContextTest {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+public class ApplicationContextTest {
 
   @Test
   void shouldCreateXmlConnector() {
@@ -27,8 +28,8 @@ public class ApplicationContextTest {
     final XmlHSQLConnector bean = context.getBean(XmlHSQLConnector.class);
     final DataSource dataSource = bean.getDataSource();
 
-    Assertions.assertNotNull(bean);
-    Assertions.assertNotNull(dataSource);
+    assertNotNull(bean);
+    assertNotNull(dataSource);
   }
 
   @Test
@@ -37,8 +38,8 @@ public class ApplicationContextTest {
     final AnnotationHSQLConnector bean = context.getBean(AnnotationHSQLConnector.class);
     final DataSource dataSource = bean.getDataSource();
 
-    Assertions.assertNotNull(bean);
-    Assertions.assertNotNull(dataSource);
+    assertNotNull(bean);
+    assertNotNull(dataSource);
 
   }
 
@@ -48,8 +49,8 @@ public class ApplicationContextTest {
     final JavaHSQLConnector bean = context.getBean(JavaHSQLConnector.class);
     final DataSource dataSource = bean.getDataSource();
 
-    Assertions.assertNotNull(bean);
-    Assertions.assertNotNull(dataSource);
+    assertNotNull(bean);
+    assertNotNull(dataSource);
   }
 
   @Test
@@ -68,8 +69,8 @@ public class ApplicationContextTest {
     final ProgrammaticHSQLConnector bean = context.getBean(ProgrammaticHSQLConnector.class);
     final DataSource dataSource = bean.getDataSource();
 
-    Assertions.assertNotNull(bean);
-    Assertions.assertNotNull(dataSource);
+    assertNotNull(bean);
+    assertNotNull(dataSource);
   }
 
   private Map<String, Object> getPropertiesMap(){
