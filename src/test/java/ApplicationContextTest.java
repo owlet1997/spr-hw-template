@@ -63,7 +63,11 @@ public class ApplicationContextTest {
     });
     context.registerBean(ProgrammaticHSQLConnector.class);
     context.registerBean("dataSource",JDBCDataSource.class,
-            beanDefiniton -> beanDefiniton.getPropertyValues().addPropertyValues(getPropertiesMap()));
+            beanDefiniton -> beanDefiniton.getPropertyValues()
+                                          .add("database","${url}")
+                                          .add("user","${login}")
+                                          .add("password","${password}")
+    );
     context.refresh();
 
     final ProgrammaticHSQLConnector bean = context.getBean(ProgrammaticHSQLConnector.class);
@@ -71,13 +75,5 @@ public class ApplicationContextTest {
 
     assertNotNull(bean);
     assertNotNull(dataSource);
-  }
-
-  private Map<String, Object> getPropertiesMap(){
-    final Map<String, Object> map = new HashMap<>();
-    map.put("database","${url}");
-    map.put("user","${login}");
-    map.put("password","${password}");
-    return map;
   }
 }
