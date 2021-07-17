@@ -2,36 +2,43 @@ import org.example.connector.annotation.AnnotationHSQLConnector;
 import org.example.connector.java.JavaHSQLConnector;
 import org.example.connector.programmatic.ProgrammaticHSQLConnector;
 import org.example.connector.xml.XmlHSQLConnector;
+import org.hsqldb.jdbc.JDBCDataSource;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.example.config.javaconf.ApplicationConfiguration;
+import org.example.connector.java.javaconf.ApplicationConfiguration;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ApplicationContextTest {
-  private final String login = "sa";
-  private final String password = "";
+
 
   @Test
   void shouldCreateXmlConnector() {
     final ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
     final XmlHSQLConnector bean = context.getBean(XmlHSQLConnector.class);
-    assertEquals(login, bean.getLogin());
-    assertEquals(password, bean.getPassword());
+    DataSource dataSource = bean.getDataSource();
+
+    Assertions.assertNotNull(bean);
+    Assertions.assertNotNull(dataSource);
   }
 
   @Test
   void shouldCreateAnnotationConnector(){
-    final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("org.example");
+    final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("org.example.connector.annotation");
     final AnnotationHSQLConnector bean = context.getBean(AnnotationHSQLConnector.class);
-    assertEquals(login, bean.getLogin());
-    assertEquals(password, bean.getPassword());
+    DataSource dataSource = bean.getDataSource();
+
+    Assertions.assertNotNull(bean);
+    Assertions.assertNotNull(dataSource);
 
   }
 
@@ -39,8 +46,10 @@ public class ApplicationContextTest {
   void shouldCreateJavaConnector() {
     final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
     final JavaHSQLConnector bean = context.getBean(JavaHSQLConnector.class);
-    assertEquals(login, bean.getLogin());
-    assertEquals(password, bean.getPassword());
+    DataSource dataSource = bean.getDataSource();
+
+    Assertions.assertNotNull(bean);
+    Assertions.assertNotNull(dataSource);
   }
 
   @Test
@@ -51,11 +60,23 @@ public class ApplicationContextTest {
       configurer.setLocations(new ClassPathResource("db.properties"));
       return configurer;
     });
-    context.registerBean(ProgrammaticHSQLConnector.class, "${login}", "${password}");
+    context.registerBean(ProgrammaticHSQLConnector.class);
+    context.registerBean("dataSource",JDBCDataSource.class,
+            beanDefiniton -> beanDefiniton.getPropertyValues().addPropertyValues(getPropertiesMap()));
     context.refresh();
 
     final ProgrammaticHSQLConnector bean = context.getBean(ProgrammaticHSQLConnector.class);
-    assertEquals(login, bean.getLogin());
-    assertEquals(password, bean.getPassword());
+    DataSource dataSource = bean.getDataSource();
+
+    Assertions.assertNotNull(bean);
+    Assertions.assertNotNull(dataSource);
+  }
+
+  private Map<String, Object> getPropertiesMap(){
+    Map<String, Object> map = new HashMap<>();
+    map.put("database","${url}");
+    map.put("user","${login}");
+    map.put("password","${password}");
+    return map;
   }
 }
