@@ -25,7 +25,7 @@ public class ApplicationContextTest {
     final ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
     final XmlHSQLConnector bean = context.getBean(XmlHSQLConnector.class);
-    DataSource dataSource = bean.getDataSource();
+    final DataSource dataSource = bean.getDataSource();
 
     Assertions.assertNotNull(bean);
     Assertions.assertNotNull(dataSource);
@@ -35,7 +35,7 @@ public class ApplicationContextTest {
   void shouldCreateAnnotationConnector(){
     final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("org.example.connector.annotation");
     final AnnotationHSQLConnector bean = context.getBean(AnnotationHSQLConnector.class);
-    DataSource dataSource = bean.getDataSource();
+    final DataSource dataSource = bean.getDataSource();
 
     Assertions.assertNotNull(bean);
     Assertions.assertNotNull(dataSource);
@@ -46,7 +46,7 @@ public class ApplicationContextTest {
   void shouldCreateJavaConnector() {
     final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
     final JavaHSQLConnector bean = context.getBean(JavaHSQLConnector.class);
-    DataSource dataSource = bean.getDataSource();
+    final DataSource dataSource = bean.getDataSource();
 
     Assertions.assertNotNull(bean);
     Assertions.assertNotNull(dataSource);
@@ -66,14 +66,14 @@ public class ApplicationContextTest {
     context.refresh();
 
     final ProgrammaticHSQLConnector bean = context.getBean(ProgrammaticHSQLConnector.class);
-    DataSource dataSource = bean.getDataSource();
+    final DataSource dataSource = bean.getDataSource();
 
     Assertions.assertNotNull(bean);
     Assertions.assertNotNull(dataSource);
   }
 
   private Map<String, Object> getPropertiesMap(){
-    Map<String, Object> map = new HashMap<>();
+    final Map<String, Object> map = new HashMap<>();
     map.put("database","${url}");
     map.put("user","${login}");
     map.put("password","${password}");
